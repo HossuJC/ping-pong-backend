@@ -34,13 +34,13 @@ export function updatePlayer(req, res) {
     let updated = false;
     players.map(p => {
         if (p.name == req.query.name) {
-            p.wins = req.query.wins
-            p.cumulative_points = req.query.cumulative_points
-            updated = true
+            p.wins = Number(p.wins) + 1;
+            p.cumulative_points = Number(p.cumulative_points) + Number(req.query.cumulative_points);
+            updated = true;
         }
     })
     if (updated && writePlayerInfo(players, res)) {
-        let player = new Player(req.query.name, req.query.wins, req.query.cumulative_points)
+        let player = new Player(req.query.name, req.query.wins, req.query.cumulative_points);
         console.log("Player updated.");
         res.status(200).send({message: "Player updated.", data: player});
     }
